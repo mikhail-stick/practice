@@ -2,6 +2,8 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { DatabaseConfig } from './config.types';
+import { MeetupModule } from './meetup/meetup.module';
+import { TagModule } from './tag/tag.module';
 
 @Module({
   imports: [
@@ -17,7 +19,7 @@ import { DatabaseConfig } from './config.types';
           username: configService.getOrThrow('POSTGRES_USER'),
           password: configService.getOrThrow('POSTGRES_PASSWORD'),
           autoLoadEntities: true,
-          synchronize: false,
+          synchronize: true,
           retryAttempts: 10,
           retryDelay: 1000,
           logging: true,
@@ -25,8 +27,7 @@ import { DatabaseConfig } from './config.types';
       },
       inject: [ConfigService],
     }),
+    TagModule,
   ],
-  controllers: [],
-  providers: [],
 })
 export class AppModule {}
