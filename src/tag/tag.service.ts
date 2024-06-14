@@ -27,7 +27,7 @@ export class TagService {
   }
 
   async update(id: number, updateTagProps: Partial<Tag>) {
-    return this.tagRepository.update(id, updateTagProps);
+    return this.tagRepository.save({ id, ...updateTagProps });
   }
 
   async remove(id: number) {
