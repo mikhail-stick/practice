@@ -22,7 +22,7 @@ export class MeetupService {
   }
 
   async findOne(id: number) {
-    const tag = this.meetupRepository.findOneBy({ id });
+    const tag = await this.meetupRepository.findOneBy({ id });
 
     if (!tag) {
       throw new ServiceError(MeetupError.MEETUP_NOT_FOUND);

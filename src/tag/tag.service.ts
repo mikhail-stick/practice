@@ -17,7 +17,7 @@ export class TagService {
   }
 
   async findOne(id: number) {
-    const tag = this.tagRepository.findOneBy({ id });
+    const tag = await this.tagRepository.findOneBy({ id });
 
     if (!tag) {
       throw new ServiceError(TagError.TAG_NOT_FOUND);
