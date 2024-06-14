@@ -27,6 +27,7 @@ import { TagModule } from './tag/tag.module';
       },
       inject: [ConfigService],
     }),
+    MeetupModule,
     TagModule,
   ],
 })
