@@ -8,13 +8,16 @@ import {
   Delete,
 } from '@nestjs/common';
 import { MeetupService } from './meetup.service';
+import { CreateMeetupDto } from './dto/create-meetup.dto';
+import { UpdateMeetupDto } from './dto/update-meetup.dto';
+import { IdDto } from '../utils/id.dto';
 
 @Controller('meetup')
 export class MeetupController {
   constructor(private readonly meetupService: MeetupService) {}
 
   @Post()
-  create(@Body() createMeetupDto) {
+  create(@Body() createMeetupDto: CreateMeetupDto) {
     return this.meetupService.create(createMeetupDto);
   }
 
@@ -24,18 +27,17 @@ export class MeetupController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param() { id }: IdDto) {
     return this.meetupService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateMeetupDto) {
-    return this.meetupService.update(+id, updateMeetupDto);
+  update(@Param() { id }: IdDto, @Body() updateMeetupDto: UpdateMeetupDto) {
+    return this.meetupService.update(id, updateMeetupDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    console.log(id);
-    return this.meetupService.remove(+id);
+  remove(@Param() { id }: IdDto) {
+    return this.meetupService.remove(id);
   }
 }

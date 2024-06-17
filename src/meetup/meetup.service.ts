@@ -3,36 +3,72 @@ import { ServiceError } from '../exceptions/service.error';
 import { MeetupRepository } from './meetup.repository';
 import { Meetup } from './meetup.entity';
 import { MeetupError } from '../exceptions/enums/meetup-error.enum';
+import { CreateMeetupDto } from './dto/create-meetup.dto';
+import { UpdateMeetupDto } from './dto/update-meetup.dto';
+import { TagService } from '../tag/tag.service';
+import { TagError } from '../exceptions/enums/tag-error.enum';
 
 @Injectable()
 export class MeetupService {
-  constructor(private readonly meetupRepository: MeetupRepository) {}
+  constructor(
+    private readonly tagService: TagService,
+    private readonly meetupRepository: MeetupRepository,
+  ) {}
 
-  async create(
-    createTagProps: Pick<
-      Meetup,
-      'name' | 'description' | 'tags' | 'time' | 'location'
-    >,
-  ) {
-    return this.meetupRepository.save(createTagProps);
+  async create(createMeetupDto: CreateMeetupDto) {
+    if (createMeetupDto?.tags) {
+      for (const id of createMeetupDto?.tags) {
+        if (!(await this.tagService.findOne(id))) {
+          throw new ServiceError(TagError.TAG_NOT_FOUND);
+        }
+      }
+    }
+
+    const meetup = {
+      name: createMeetupDto.name,
+      description: createMeetupDto.description,
+      tags: createMeetupDto.tags?.map((id) => ({ id })),
+      time: createMeetupDto.time,
+      location: createMeetupDto.location,
+    };
+
+    return this.meetupRepository.save(meetup);
   }
 
   async findAll(): Promise<Meetup[]> {
-    return this.meetupRepository.find();
+    return this.meetupRepository.find({
+      relations: { tags: true },
+    });
   }
 
   async findOne(id: number) {
-    const tag = await this.meetupRepository.findOneBy({ id });
+    const meetup = await this.meetupRepository.find({
+      relations: { tags: true },
+      where: { id },
+    });
 
-    if (!tag) {
+    if (!meetup) {
       throw new ServiceError(MeetupError.MEETUP_NOT_FOUND);
     }
 
-    return tag;
+    return meetup;
   }
 
-  async update(id: number, updateTagProps: Partial<Meetup>) {
-    return this.meetupRepository.save({ id, ...updateTagProps });
+  async update(id: number, updateMeetupDto: UpdateMeetupDto) {
+    if (updateMeetupDto?.tags) {
+      for (const id of updateMeetupDto?.tags) {
+        if (!(await this.tagService.findOne(id))) {
+          throw new ServiceError(TagError.TAG_NOT_FOUND);
+        }
+      }
+    }
+
+    const meetup = {
+      ...updateMeetupDto,
+      tags: updateMeetupDto.tags?.map((id) => ({ id })),
+    };
+
+    return this.meetupRepository.update(id, meetup);
   }
 
   async remove(id: number) {

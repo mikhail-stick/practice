@@ -1,15 +1,17 @@
 import {
   ArgumentsHost,
   Catch,
+  ExceptionFilter,
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { AppError } from './app.error';
 import { ServiceError } from './service.error';
+import { ValidationError } from './validation.error';
 
 @Catch()
-export class ExceptionFilter implements ExceptionFilter {
+export class ExceptionsFilter implements ExceptionFilter {
   catch(exception: unknown, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
@@ -39,6 +41,9 @@ export class ExceptionFilter implements ExceptionFilter {
   getAppErrorCode(exception: AppError) {
     if (exception instanceof ServiceError) {
       return HttpStatus.BAD_REQUEST;
+    }
+    if (exception instanceof ValidationError) {
+      return HttpStatus.UNPROCESSABLE_ENTITY;
     }
     throw new Error('Unhandled error');
   }
