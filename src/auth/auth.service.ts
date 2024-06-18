@@ -1,12 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
+import { SignUpDto } from './dto/sign-up.dto';
 import { UserRole } from '../user/user-role.enum';
 import * as bcrypt from 'bcrypt';
 import { HASH_SALT } from './auth.constants';
 import { ServiceError } from '../exceptions/service.error';
 import { PrincipalType } from './types/principal.type';
 import { normalizeEmail } from 'validator';
+import { SignInDto } from './dto/sign-in.dto';
 import { AuthError } from '../exceptions/enums/auth-error.enum';
 
 @Injectable()
@@ -16,7 +18,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async signIn(signInDto): Promise<{ accessToken: string }> {
+  async signIn(signInDto: SignInDto): Promise<{ accessToken: string }> {
     const normalizedEmail = this.normalizeEmailOrFail(signInDto.email);
 
     const user =
@@ -42,7 +44,7 @@ export class AuthService {
     }
   }
 
-  async signUp(signUpDto) {
+  async signUp(signUpDto: SignUpDto) {
     const normalizedEmail = this.normalizeEmailOrFail(signUpDto.email);
 
     await this.assertUserNotExist(normalizedEmail);
