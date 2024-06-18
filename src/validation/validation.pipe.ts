@@ -15,7 +15,7 @@ export class ValidationPipe implements PipeTransform {
     if (errors.length > 0) {
       throw new AppValidationError(this.expandError(errors));
     }
-    return value;
+    return object;
   }
   public expandError(errors: ValidationError[]) {
     let message = '';
