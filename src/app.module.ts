@@ -5,6 +5,7 @@ import { DatabaseConfig } from './config.types';
 import { MeetupModule } from './meetup/meetup.module';
 import { TagModule } from './tag/tag.module';
 import { UserModule } from './user/user.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { UserModule } from './user/user.module';
     MeetupModule,
     TagModule,
     UserModule,
+    AuthModule,
   ],
 })
 export class AppModule {}
