@@ -4,6 +4,7 @@ import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { DatabaseConfig } from './config.types';
 import { MeetupModule } from './meetup/meetup.module';
 import { TagModule } from './tag/tag.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { TagModule } from './tag/tag.module';
     }),
     MeetupModule,
     TagModule,
+    UserModule,
   ],
 })
 export class AppModule {}
