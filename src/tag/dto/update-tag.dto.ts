@@ -6,17 +6,21 @@ import {
   IsString,
   MaxLength,
 } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiPropertyOptional } from '@nestjs/swagger';
 
 export class UpdateTagDto {
-  @ApiProperty({ description: 'label', required: false })
+  @ApiPropertyOptional({ description: 'label', required: false })
   @IsOptional()
   @IsString()
   @IsNotEmpty()
   @MaxLength(256)
   label: string;
 
-  @ApiProperty({ description: 'meetups', required: false, example: [1, 2] })
+  @ApiPropertyOptional({
+    description: 'meetups',
+    required: false,
+    example: [1, 2],
+  })
   @IsOptional()
   @IsArray()
   @IsNumber({}, { each: true })

@@ -7,12 +7,14 @@ import {
   Param,
   Delete,
   HttpStatus,
+  Query,
 } from '@nestjs/common';
 import { MeetupService } from './meetup.service';
 import { CreateMeetupDto } from './dto/create-meetup.dto';
 import { UpdateMeetupDto } from './dto/update-meetup.dto';
 import { IdDto } from '../utils/id.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { QueryMeetupDto } from './dto/query-meetup.dto';
 
 @ApiTags('Meetup')
 @Controller('meetup')
@@ -35,9 +37,9 @@ export class MeetupController {
   @ApiResponse({
     status: HttpStatus.OK,
   })
-  @Get()
-  findAll() {
-    return this.meetupService.findAll();
+  @Get('')
+  findAll(@Query() query: QueryMeetupDto) {
+    return this.meetupService.findAll(query);
   }
 
   @ApiOperation({ summary: 'Create meetup by id' })

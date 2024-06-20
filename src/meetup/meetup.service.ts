@@ -7,6 +7,8 @@ import { CreateMeetupDto } from './dto/create-meetup.dto';
 import { UpdateMeetupDto } from './dto/update-meetup.dto';
 import { TagService } from '../tag/tag.service';
 import { TagError } from '../exceptions/enums/tag-error.enum';
+import { QueryMeetupDto } from './dto/query-meetup.dto';
+import { FindOptionsOrderValue } from 'typeorm';
 
 @Injectable()
 export class MeetupService {
@@ -35,9 +37,17 @@ export class MeetupService {
     return this.meetupRepository.save(meetup);
   }
 
-  async findAll(): Promise<Meetup[]> {
+  async findAll(query: QueryMeetupDto): Promise<Meetup[]> {
+    const { name, page = 1, size = 5, dateSort } = query;
+
     return this.meetupRepository.find({
+      where: { name },
       relations: { tags: true },
+      skip: (page - 1) * size,
+      take: size,
+      order: {
+        time: dateSort as FindOptionsOrderValue,
+      },
     });
   }
 
