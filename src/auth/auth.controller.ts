@@ -18,6 +18,8 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { AuthGuard } from './guards/auth.guard';
+import { Auth } from './decorators/auth.decorator';
+import { UserRole } from '../user/user-role.enum';
 
 @ApiTags('Authentication')
 @Controller('auth')
@@ -46,10 +48,15 @@ export class AuthController {
     return await this.authService.signUp(signUpDto);
   }
 
-  @ApiBearerAuth()
-  @UseGuards(AuthGuard)
+  @Auth()
   @Get('profile')
   getProfile(@Principal() user: PrincipalType) {
     return user;
+  }
+
+  @Auth([UserRole.Admin])
+  @Get('admin')
+  testEndpoint() {
+    return 'Admin';
   }
 }
