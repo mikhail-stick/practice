@@ -6,7 +6,7 @@ import {
   IsString,
   MaxLength,
 } from 'class-validator';
-import { Transform } from 'class-transformer';
+import { Type } from 'class-transformer';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 
 export class UpdateMeetupDto {
@@ -36,7 +36,7 @@ export class UpdateMeetupDto {
   @ApiPropertyOptional({ description: 'time', required: false })
   @IsOptional()
   @IsNotEmpty()
-  @Transform(() => Date)
+  @Type(() => Date)
   time: Date;
 
   @ApiPropertyOptional({ description: 'location', required: false })

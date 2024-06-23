@@ -75,10 +75,11 @@ export class MeetupService {
 
     const meetup = {
       ...updateMeetupDto,
+      time: updateMeetupDto.time?.toISOString(),
       tags: updateMeetupDto.tags?.map((id) => ({ id })),
     };
 
-    return this.meetupRepository.update(id, meetup);
+    return this.meetupRepository.save({ id, ...meetup });
   }
 
   async remove(id: number) {
