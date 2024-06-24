@@ -21,7 +21,7 @@ import { AuthModule } from './auth/auth.module';
           username: configService.getOrThrow('POSTGRES_USER'),
           password: configService.getOrThrow('POSTGRES_PASSWORD'),
           autoLoadEntities: true,
-          synchronize: true,
+          synchronize: false,
           retryAttempts: 10,
           retryDelay: 1000,
           logging: true,
