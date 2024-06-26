@@ -17,4 +17,7 @@ export class User {
 
   @Column({ type: 'enum', enum: UserRole })
   role: UserRole;
+
+  @Column({ type: 'varchar', length: 256, default: null })
+  token: string;
 }

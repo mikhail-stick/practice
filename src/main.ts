@@ -3,12 +3,14 @@ import { AppModule } from './app.module';
 import { ExceptionsFilter } from './exceptions/exceptions-filter';
 import { ValidationPipe } from './validation/validation.pipe';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import * as cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.setGlobalPrefix('api/v1');
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalFilters(new ExceptionsFilter());
+  app.use(cookieParser());
 
   const config = new DocumentBuilder()
     .setTitle('Meetup API')

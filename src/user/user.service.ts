@@ -31,9 +31,17 @@ export class UserService {
   async createUser(
     createUserProps: Pick<
       User,
-      'email' | 'normalizedEmail' | 'password' | 'role'
+      'email' | 'normalizedEmail' | 'password' | 'role' | 'token'
     >,
   ) {
     return this.userRepository.save(createUserProps);
+  }
+
+  async update(id: number, user: Partial<User>) {
+    return this.userRepository.save({ id, ...user });
+  }
+
+  async findOneByToken(token: string): Promise<User | null> {
+    return this.userRepository.findOne({ where: { token } });
   }
 }
