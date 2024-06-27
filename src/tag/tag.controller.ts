@@ -13,6 +13,7 @@ import { IdDto } from '../utils/id.dto';
 import { CreateTagDto } from './dto/create-tag.dto';
 import { UpdateMeetupDto } from '../meetup/dto/update-meetup.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Auth } from '../auth/decorators/auth.decorator';
 
 @ApiTags('Tag')
 @Controller('tag')
@@ -25,6 +26,7 @@ export class TagController {
     status: HttpStatus.OK,
     description: 'Successfully created',
   })
+  @Auth()
   @Post()
   create(@Body() createTagDto: CreateTagDto) {
     return this.tagService.create(createTagDto);
@@ -56,6 +58,7 @@ export class TagController {
     status: HttpStatus.OK,
     description: 'Successfully changed',
   })
+  @Auth()
   @Patch(':id')
   update(@Param() { id }: IdDto, @Body() updateTagDto: UpdateMeetupDto) {
     return this.tagService.update(id, updateTagDto);
@@ -67,6 +70,7 @@ export class TagController {
     status: HttpStatus.OK,
     description: 'Successfully deleted',
   })
+  @Auth()
   @Delete(':id')
   remove(@Param() { id }: IdDto) {
     return this.tagService.remove(id);

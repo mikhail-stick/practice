@@ -15,6 +15,7 @@ import { UpdateMeetupDto } from './dto/update-meetup.dto';
 import { IdDto } from '../utils/id.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { QueryMeetupDto } from './dto/query-meetup.dto';
+import { Auth } from '../auth/decorators/auth.decorator';
 
 @ApiTags('Meetup')
 @Controller('meetup')
@@ -27,6 +28,7 @@ export class MeetupController {
     status: HttpStatus.OK,
     description: 'Successfully created',
   })
+  @Auth()
   @Post()
   create(@Body() createMeetupDto: CreateMeetupDto) {
     return this.meetupService.create(createMeetupDto);
@@ -58,6 +60,7 @@ export class MeetupController {
     status: HttpStatus.OK,
     description: 'Successfully changed',
   })
+  @Auth()
   @Patch(':id')
   update(@Param() { id }: IdDto, @Body() updateMeetupDto: UpdateMeetupDto) {
     return this.meetupService.update(id, updateMeetupDto);
@@ -69,6 +72,7 @@ export class MeetupController {
     status: HttpStatus.OK,
     description: 'Successfully deleted',
   })
+  @Auth()
   @Delete(':id')
   remove(@Param() { id }: IdDto) {
     return this.meetupService.remove(id);
