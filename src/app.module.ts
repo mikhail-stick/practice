@@ -21,7 +21,7 @@ import { AuthModule } from './auth/auth.module';
           // port: configService.getOrThrow('POSTGRES_PORT', { infer: true }),
           // username: configService.getOrThrow('POSTGRES_USER'),
           // password: configService.getOrThrow('POSTGRES_PASSWORD'),
-          ssl: true,
+          ssl: false,
           autoLoadEntities: true,
           synchronize: true,
           retryAttempts: 10,
