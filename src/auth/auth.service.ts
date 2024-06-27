@@ -27,13 +27,13 @@ export class AuthService {
     const user =
       await this.userService.findOneByNormalizedEmailOrFail(normalizedEmail);
 
-    this.assertPasswordMatch(user.password, signInDto.password);
+    await this.assertPasswordMatch(user.password, signInDto.password);
 
     return this.updateTokens(user);
   }
 
-  assertPasswordMatch(hashedPassword: string | Buffer, password: string) {
-    const isMatch = bcrypt.compare(hashedPassword, password);
+  async assertPasswordMatch(hashedPassword: string, password: string) {
+    const isMatch = await bcrypt.compare(password, hashedPassword);
     if (!isMatch) {
       throw new ServiceError(AuthError.INCORRECT_PASSWORD);
     }
