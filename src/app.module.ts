@@ -16,7 +16,7 @@ import { AuthModule } from './auth/auth.module';
       ): Promise<TypeOrmModuleOptions> => {
         return {
           type: 'postgres',
-          url: 'postgresql://postgres1:odCzRQuJfQolC5ZlRuZwCqXjT9mFdzxc@dpg-cpu8d0lds78s73e2neng-a.oregon-postgres.render.com/nest_uh6o',
+          url: 'postgresql://postgres1:odCzRQuJfQolC5ZlRuZwCqXjT9mFdzxc@dpg-cpu8d0lds78s73e2neng-a/nest_uh6o',
           // host: configService.getOrThrow('POSTGRES_HOST'),
           // port: configService.getOrThrow('POSTGRES_PORT', { infer: true }),
           // username: configService.getOrThrow('POSTGRES_USER'),
